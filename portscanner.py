@@ -4,7 +4,7 @@ from IPy import IP
 def scan(target):
     converted_ip = check_ip(target)
     print('\n' + '[-_0 Scanning Target] ' + str(target))
-    for port in range(20, 81):
+    for port in range(1, 500):
             scan_port(converted_ip, port)
 
 def check_ip(ip):
@@ -23,7 +23,7 @@ def get_banner(s):
 def scan_port(ipaddress, port):
     try:
         sock = socket.socket()
-        sock.settimeout(1.0)
+        sock.settimeout(0.6)
         #establish connection with target machine
         sock.connect((ipaddress, port))
         try:
@@ -33,13 +33,14 @@ def scan_port(ipaddress, port):
             print('[+] Open Port ' + str(port) + ' | ')
     except: 
         pass
-    
-targets = input('[+] Enter Target/s To Scan (split multiple targets with ,): ')
-if ',' in targets:
-    for ipaddress in targets.split(','):
-        scan(ipaddress.strip(' '))
-else:
-    scan(targets)
+
+if __name__ == "__main__":   
+    targets = input('[+] Enter Target/s To Scan (split multiple targets with ,): ')
+    if ',' in targets:
+        for ipaddress in targets.split(','):
+            scan(ipaddress.strip(' '))
+    else:
+        scan(targets)
 
 
         
