@@ -4,7 +4,7 @@ from IPy import IP
 def scan(target):
     converted_ip = check_ip(target)
     print('\n' + '[-_0 Scanning Target] ' + str(target))
-    for port in range(70, 90):
+    for port in range(20, 81):
             scan_port(converted_ip, port)
 
 def check_ip(ip):
@@ -15,13 +15,22 @@ def check_ip(ip):
     except ValueError:
         return socket.gethostbyname(ip)
 
+def get_banner(s):
+    #not sure how to check if get_banner is working 
+    banner = s.recv(1024)
+    return banner
+
 def scan_port(ipaddress, port):
     try:
         sock = socket.socket()
-        sock.settimeout(0.5)
+        sock.settimeout(1.0)
         #establish connection with target machine
         sock.connect((ipaddress, port))
-        print('[+] Port ' + str(port) +  ' is Open')
+        try:
+            banner = get_banner(sock)
+            print('[+] Open Port ' + str(port) +  ' : ' + str(banner))
+        except:
+            print('[+] Open Port ' + str(port) + ' | ')
     except: 
         pass
     
